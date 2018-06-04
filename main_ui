@@ -15,8 +15,15 @@ end () {
 }
 
 switchSignal () {
-    $MAIN $1
-    $DIALOG --title 'Success' --yesno "Succesfully switched to channel $1\n\nContinue?"
+    if $MAIN $1 2> $ERROR
+    then 
+      title='Success'
+      message="Succesfully switched to channel $1\n\nContinue?"
+    else 
+      title='Error'
+      message="`gettext \"Error:\"`\\n\\n`cat $ERROR`\\n\\n`gettext \"Continue?\"`"
+    fi
+    $DIALOG --title "$title" --yesno "$message" 10 35
     response=$?
     case $response in
       0) showDialog;;
@@ -38,7 +45,7 @@ showDialog () {
     then
       MSG="Please, choose the channel\n1 - Regularly encrypted channel\n2 - Quantum encrypted channel\n"
     else 
-      MSG="Please, choose the channel\n1 - Regularly encrypted channel\n2 - Quantum encrypted channel\n\bIncorrect value. Please, try again\b"
+      MSG="Please, choose the channel\n1 - Regularly encrypted channel\n2 - Quantum encrypted channel\nIncorrect value. Please, try again"
     fi
     $DIALOG --inputbox "$MSG" 10 40 2> $FILE1 || end
     value=`cat $FILE1`
