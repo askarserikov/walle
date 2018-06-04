@@ -4,7 +4,8 @@ FILE1=/tmp/calc1-$$
 FILE2=/tmp/calc2-$$
 ERROR=/tmp/calc-err-$$
 MAIN=./main
-MSG="Please, choose the channel\n1 - Regularly encrypted channel\n2 - Quantum encrypted channel"
+MSG="Please, choose the channel\n1 - Regularly encrypted channel\n2 - Quantum encrypted channel\n"
+WRNG="Incorrect value"
 
 which gdialog 2> /dev/null && DIALOG=gdialog || DIALOG=dialog
 
@@ -14,23 +15,31 @@ end () {
 }
 
 switchSignal () {
-    echo "value in switchSignal: $1"
     $MAIN $1
-    $DIALOG --title 'Success' --msgbox "Succesfully switched to channel $1" 5 30
-    end
+    $DIALOG --title 'Success' --yesno "Succesfully switched to channel $1\n\nContinue?"
+    response=$?
+    case $response in
+      0) showDialog;;
+      1) end;;
+    esac
 }
 
 checkValue () {
-    echo "value in checkValue: $1"
     if [ "$1" != "1" ] && [ "$1" != "2" ]
     then 
-      showDialog
+      showDialog $1
     else
       switchSignal $1  
     fi   
 }
 
 showDialog () {
+    if [ $# -eq 0 ]
+    then
+      MSG="Please, choose the channel\n1 - Regularly encrypted channel\n2 - Quantum encrypted channel\n"
+    else 
+      MSG="Please, choose the channel\n1 - Regularly encrypted channel\n2 - Quantum encrypted channel\n\bIncorrect value. Please, try again\b"
+    fi
     $DIALOG --inputbox "$MSG" 10 40 2> $FILE1 || end
     value=`cat $FILE1`
     checkValue $value
