@@ -10,7 +10,7 @@ Installation:
 Clone the repository to a folder on your machine.  
 In shell, *cd* to the folder and run *sudo make*  
 It will install the application on your computer, download and install *pip* package for Python.  
-Now, run *pip install ryu* in shell  
+Now, run *pip install ryu --ignore-installed* and then *pip install requests* in shell
 After, run *ryu-manager rest-forward.py*  
 Run *systemctl start xinetd*  
 Now, run *main_ui* to launch the local version of the application or *nmain_ui* to launch the server version of the app.  
