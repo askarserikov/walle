@@ -1,6 +1,8 @@
 install: main_ui-ru.mo
 	install main main_ui /usr/local/bin
 	which gdialog >/dev/null 2>&1 || install gdialog /usr/local/bin
+	curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+	python get-pip.py
 	grep -q "`cat main.services`" /etc/services || cat main.services >> /etc/services
 	install main.xinetd /etc/xinetd.d/main
 	ln -sf /usr/local/bin/main_ui /usr/local/bin/nmain_ui
