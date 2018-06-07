@@ -6,8 +6,8 @@ FILE2=/tmp/main2-$$
 ERROR=/tmp/main-err-$$
 MAIN=main
 GETTEXT="gettext -d main_ui"
-DMSG="`$GETTEXT \"Please, choose the channel\n1 - Regularly encrypted channel\n2 - Quantum encrypted channel\n\"`"
-WRNG="`$GETTEXT \"\nIncorrect value. Please, try again\"`"
+DMSG="`$GETTEXT \"Please, choose the channel:\"`\n`$GETTEXT \"1 - Regularly encrypted channel\"`\n`$GETTEXT \"2 - Quantum encrypted channel\"`\n"
+WRNG="`$GETTEXT \"Incorrect value. Please, try again\"`"
 
 which gdialog 2> /dev/null && DIALOG=gdialog || DIALOG=dialog
 
@@ -29,19 +29,21 @@ end () {
 }
 
 switchSignal () {
+    echo $1
     if echo $1 | $MAIN 1> $FILE2 2> $ERROR
     then 
-      if [[ "cat $FILE2" = "*Switched*"  ]] 
+      if grep -qF "Switched" $FILE2
       then
-        title="`$GETTEXT \"Success\"`"
-        message="`$GETTEXT \"Successfully switched to channel $1\"`\n\n`$GETTEXT \"Response from the server:\"`\n`cat $FILE2`\n\n`$GETTEXT \"Continue?\"`"
-      elif [[ "cat $FILE2" = "*Received*" ]]
-      then 
-        title="`$GETTEXT \"Success\"`"
-        message="`$GETTEXT \"Successfully switched to channel $1\"`\n\n`$GETTEXT \"Response from the remote server:\"`\n`cat $FILE2`\n\n`$GETTEXT \"Continue?$
+        case $1 in
+        1) chan="`$GETTEXT \"with regular encryption\"`";;
+        2) chan="`$GETTEXT \"with quantum encryption\"`";;
+        esac
+        message="`$GETTEXT \"Successfully switched to the channel \"``$GETTEXT \"$chan\"`\n\n`$GETTEXT \"Continue?\"`"
       else 
-      title="`$GETTEXT \"Error\"`"
-      message="`$GETTEXT \"Error:\"`\\n\\n`cat $ERROR`\\n\\n`$GETTEXT \"Continue?\"`"
+       message="`$GETTEXT \"Response from the server:\"`\n`cat $FILE2`\n\n`$GETTEXT \"Continue?\"`" 
+      fi
+    else 
+      message="`$GETTEXT \"Error:\"`\n`cat $ERROR`\n\n`$GETTEXT \"Continue?\"`"
     fi
     $DIALOG --title "$title" --yesno "$message" 10 35
     response=$?

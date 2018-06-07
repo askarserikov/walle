@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-06-06 13:30+0400\n"
+"PO-Revision-Date: 2018-06-06 13:30+0400\n"
+"Last-Translator: Askar Serikov <askar.k.serikov@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Please, choose the channel:"
+msgstr "Выберите тип шифрования для канала передачи данных:"
+
+msgid "1 - Regularly encrypted channel"
+msgstr "1 - Стандартное шифрование"
+
+msgid "2 - Quantum encrypted channel"
+msgstr "2 - Квантовое шифрование"
+
+msgid "Incorrect value. Please, try again"
+msgstr "Неверное значение. Пожалуйста, попробуйте снова"
+
+msgid "with regular encryption"
+msgstr "со стандартным шифрованием"
+
+msgid "with quantum encryption"
+msgstr "с квантовым шифрованием"
+
+msgid "Response from the server:"
+msgstr "Ответ сервера:"
+
+msgid "Continue?"
+msgstr "Продолжить?"
+
+msgid "Error:"
+msgstr "Ошибка:"
+
+msgid "Successfully switched to the channel "
+msgstr "Успешно переключились на канал  "
